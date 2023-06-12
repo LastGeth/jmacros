@@ -1,0 +1,34 @@
+Sub DeleteTrash()
+    Dim ws As Worksheet
+    Dim col As Range
+    Dim cell As Range
+    
+    ' Óäàëåíèå ñòîëáöà "Detailed image" íà âñåõ ëèñòàõ, êðîìå "Images"
+    For Each ws In ThisWorkbook.Worksheets
+        If ws.Name <> "Images" Then
+            Set col = ws.Rows(1).Find("Detailed image", LookIn:=xlValues, LookAt:=xlWhole)
+            
+            If Not col Is Nothing Then
+                col.EntireColumn.Delete
+            End If
+        End If
+    Next ws
+    
+    ' Çàìåíà "_" íà ïðîáåë â ñòîëáöàõ "Product_code" è "Product_name" íà âñåõ ëèñòàõ
+    For Each ws In ThisWorkbook.Sheets
+        Set cell = ws.Cells.Find("Product_code", LookIn:=xlValues, LookAt:=xlWhole)
+        
+        If Not cell Is Nothing Then
+            cell.value = Replace(cell.value, "_", " ")
+            cell.Offset(0, 1).value = Replace(cell.Offset(0, 1).value, "_", " ")
+        End If
+        
+        Set cell = ws.Cells.Find("Product_name", LookIn:=xlValues, LookAt:=xlWhole)
+        
+        If Not cell Is Nothing Then
+            cell.value = Replace(cell.value, "_", " ")
+            cell.Offset(0, 1).value = Replace(cell.Offset(0, 1).value, "_", " ")
+        End If
+    Next ws
+End Sub
+
