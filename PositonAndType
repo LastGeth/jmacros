@@ -1,0 +1,44 @@
+Sub InsertColumnsAndValues()
+    Dim ws As Worksheet
+    Dim newSheet As Worksheet
+    Dim lastRow As Long
+    Dim pairTypeColumn As Range
+    Dim positionColumn As Range
+    
+    ' Проверяем, существует ли лист "Images"
+    On Error Resume Next
+    Set newSheet = ThisWorkbook.Sheets("Images")
+    On Error GoTo 0
+    
+    If newSheet Is Nothing Then
+        MsgBox "Лист ""Images"" не найден. Пожалуйста, выполните предыдущий макрос для создания листа ""Images"" с данными."
+        Exit Sub
+    End If
+    
+    ' Вставляем два новых столбца между первым и вторым столбцами
+    newSheet.Columns("B:B").Insert Shift:=xlToRight
+    newSheet.Columns("B:B").Insert Shift:=xlToRight
+    
+    ' Задаем диапазон для столбца "Pair type" и столбца "Position"
+    Set pairTypeColumn = newSheet.Range("B:B")
+    Set positionColumn = newSheet.Range("C:C")
+    
+    ' Называем столбцы "Pair type" и "Position"
+    pairTypeColumn.Cells(1).Value = "Pair type"
+    positionColumn.Cells(1).Value = "Position"
+    
+    ' Вносим значения в столбец "Pair type"
+    pairTypeColumn.Cells(2).Value = "M"
+    
+    ' Вносим значения в столбец "Position"
+    positionColumn.Cells(2).Value = 0
+    
+    ' Определяем последнюю заполненную строку в первом столбце
+    lastRow = newSheet.Cells(newSheet.Rows.Count, 1).End(xlUp).Row
+    
+    ' Заполняем значениями "M" в столбце "Pair type"
+    pairTypeColumn.Cells(2).Resize(lastRow - 1).FillDown
+    
+    ' Заполняем значениями "0" в столбце "Position"
+    positionColumn.Cells(2).Resize(lastRow - 1).FillDown
+End Sub
