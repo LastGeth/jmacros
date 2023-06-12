@@ -1,39 +1,31 @@
 Sub UniqueCategories()
     Dim ws As Worksheet
-    Dim newWs As Worksheet
     Dim lastRow As Long
     Dim i As Long
-    Dim newRow As Long
     Dim uniqueValues As New Collection
     Dim value As Variant
-    
-    ' Создаем новый лист для сохранения данных
-    Set newWs = ThisWorkbook.Sheets.Add(After:=ThisWorkbook.Sheets(ThisWorkbook.Sheets.Count))
-    newWs.Name = "Уникальные категории"
-    newRow = 1
+    Dim uniqueCount As Long
     
     ' Обрабатываем каждый лист
     For Each ws In ThisWorkbook.Sheets
-        ' Проверяем, не является ли текущий лист новым листом для сохранения данных
-        If ws.Name <> newWs.Name Then
-            lastRow = ws.Cells(ws.Rows.Count, 5).End(xlUp).Row ' Находим последнюю заполненную строку в пятом столбце
+        lastRow = ws.Cells(ws.Rows.Count, 5).End(xlUp).Row ' Находим последнюю заполненную строку в пятом столбце
+        
+        ' Обрабатываем каждую ячейку в пятом столбце, начиная со второй строки
+        For i = 2 To lastRow
+            value = ws.Cells(i, 5).value
             
-            ' Проверяем, что в пятом столбце есть хотя бы две ячейки
-            If lastRow >= 2 Then
-                ' Обрабатываем каждую ячейку в пятом столбце, начиная со второй строки
-                For i = 2 To lastRow
-                    value = ws.Cells(i, 5).value
-                    
-                    ' Проверяем, является ли значение уникальным
-                    If Not IsInCollection(uniqueValues, value) Then
-                        uniqueValues.Add value, CStr(value)
-                        newWs.Cells(newRow, 1).value = value
-                        newRow = newRow + 1
-                    End If
-                Next i
+            ' Проверяем, является ли значение уникальным и не пустым
+            If Not IsEmpty(value) And Not IsInCollection(uniqueValues, value) Then
+                uniqueValues.Add value, CStr(value)
             End If
-        End If
+        Next i
     Next ws
+    
+    ' Определяем количество уникальных значений
+    uniqueCount = uniqueValues.Count
+    
+    ' Отображаем окно с количеством уникальных значений
+    MsgBox "Количество уникальных значений: " & uniqueCount, vbInformation
 End Sub
 
 Function IsInCollection(col As Collection, val As Variant) As Boolean
