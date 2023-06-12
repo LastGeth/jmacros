@@ -1,4 +1,4 @@
-Sub InsertColumnsAndValues()
+Sub InsertPositonAndPairType()
     Dim ws As Worksheet
     Dim newSheet As Worksheet
     Dim lastRow As Long
