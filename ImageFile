@@ -1,0 +1,27 @@
+Sub СоздатьЛистImages()
+    Dim newWs As Worksheet
+    Dim ws As Worksheet
+    Dim newRow As Long
+    
+    ' Создаем новый лист "Images" или получаем ссылку на существующий
+    Set newWs = ThisWorkbook.Sheets.Add(After:=ThisWorkbook.Sheets(ThisWorkbook.Sheets.Count))
+    newWs.Name = "Images"
+    
+    ' Задаем заголовки столбцов
+    newWs.Cells(1, 1).Value = "Product code"
+    newWs.Cells(1, 2).Value = "Detailed image"
+    
+    newRow = 2 ' Начальная строка для копирования данных на лист "Images"
+    
+    ' Обрабатываем каждый лист
+    For Each ws In ThisWorkbook.Sheets
+        ' Игнорируем лист "Images"
+        If ws.Name <> "Images" Then
+            ' Копируем данные из первого и девятого столбца, начиная со второй строки
+            ws.Range("A2:A" & ws.Cells(ws.Rows.Count, 1).End(xlUp).Row).Copy newWs.Cells(newRow, 1)
+            ws.Range("I2:I" & ws.Cells(ws.Rows.Count, 1).End(xlUp).Row).Copy newWs.Cells(newRow, 2)
+            newRow = newRow + ws.Cells(ws.Rows.Count, 1).End(xlUp).Row - 1 ' Увеличиваем счетчик строк на количество скопированных строк минус 1
+        End If
+    Next ws
+End Sub
+
