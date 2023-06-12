@@ -1,4 +1,4 @@
-Sub СоздатьЛистImages()
+Sub CreateImageFile()
     Dim newWs As Worksheet
     Dim ws As Worksheet
     Dim newRow As Long
