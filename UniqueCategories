@@ -1,4 +1,4 @@
-Sub СобратьУникальныеДанные()
+Sub UniqueCategories()
     Dim ws As Worksheet
     Dim newWs As Worksheet
     Dim lastRow As Long
