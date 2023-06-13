@@ -3,26 +3,26 @@ Sub RemoveHyperlinksAndSplitText()
     Dim detailedImageColumn As Range
     Dim lastRow As Long
     
-    ' Проверяем, существует ли лист "Images"
+    ' Проверяем, существует ли лист "Images" в активной рабочей книге
     On Error Resume Next
-    Set ws = ThisWorkbook.Sheets("Images")
+    Set ws = Application.ActiveWorkbook.Sheets("Images")
     On Error GoTo 0
     
     If ws Is Nothing Then
-        MsgBox "Лист ""Images"" не найден."
+        MsgBox "Лист ""Images"" не найден в активной рабочей книге."
         Exit Sub
     End If
     
-    ' Определяем столбец "Detailed image"
+    ' Определяем столбец "Detailed image" на листе "Images"
     Set detailedImageColumn = ws.Range("D:D")
     
-    ' Удаляем гиперссылки в столбце "Detailed image"
+    ' Удаляем гиперссылки в столбце "Detailed image" на листе "Images"
     ws.Hyperlinks.Delete
     
-    ' Определяем последнюю заполненную строку в столбце "Detailed image"
+    ' Определяем последнюю заполненную строку в столбце "Detailed image" на листе "Images"
     lastRow = ws.Cells(ws.Rows.Count, detailedImageColumn.Column).End(xlUp).Row
     
-    ' Разделяем текст по столбцам с разделителем "," только в столбце "Detailed image"
+    ' Разделяем текст по столбцам с разделителем "," только в столбце "Detailed image" на листе "Images"
     ws.Range("D2:D" & lastRow).TextToColumns Destination:=ws.Range("D2"), _
                                DataType:=xlDelimited, _
                                TextQualifier:=xlDoubleQuote, _
@@ -34,3 +34,5 @@ Sub RemoveHyperlinksAndSplitText()
                                Other:=False, _
                                FieldInfo:=Array(1, 1)
 End Sub
+
+
