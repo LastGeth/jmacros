@@ -1,31 +1,31 @@
 Sub UniqueCategories()
     Dim ws As Worksheet
     Dim lastRow As Long
-    Dim i As Long
+    Dim I As Long
     Dim uniqueValues As New Collection
     Dim value As Variant
     Dim uniqueCount As Long
     
-    ' Обрабатываем каждый лист
-    For Each ws In ThisWorkbook.Sheets
+    ' Обрабатываем каждый лист в активной рабочей книге
+    For Each ws In Application.ActiveWorkbook.Sheets
         lastRow = ws.Cells(ws.Rows.Count, 5).End(xlUp).Row ' Находим последнюю заполненную строку в пятом столбце
         
-        ' Обрабатываем каждую ячейку в пятом столбце, начиная со второй строки
-        For i = 2 To lastRow
-            value = ws.Cells(i, 5).value
+        ' Перебираем значения в пятом столбце, начиная со второй строки
+        For I = 2 To lastRow
+            value = ws.Cells(I, 5).value
             
-            ' Проверяем, является ли значение уникальным и не пустым
+            ' Проверяем, является ли значение непустым и отсутствует ли оно в коллекции
             If Not IsEmpty(value) And Not IsInCollection(uniqueValues, value) Then
                 uniqueValues.Add value, CStr(value)
             End If
-        Next i
+        Next I
     Next ws
     
-    ' Определяем количество уникальных значений
+    ' Вычисляем количество уникальных значений
     uniqueCount = uniqueValues.Count
     
-    ' Отображаем окно с количеством уникальных значений
-    MsgBox "Количество уникальных значений: " & uniqueCount, vbInformation
+    ' Выводим результат в сообщении
+    MsgBox "Количество уникальных категорий: " & uniqueCount, vbInformation
 End Sub
 
 Function IsInCollection(col As Collection, val As Variant) As Boolean
@@ -34,3 +34,4 @@ Function IsInCollection(col As Collection, val As Variant) As Boolean
     IsInCollection = (Err.Number = 0)
     On Error GoTo 0
 End Function
+
