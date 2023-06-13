@@ -5,40 +5,41 @@ Sub InsertPositonAndPairType()
     Dim pairTypeColumn As Range
     Dim positionColumn As Range
     
-    ' Проверяем, существует ли лист "Images"
+    ' Проверяем, существует ли лист "Images" в активной рабочей книге
     On Error Resume Next
-    Set newSheet = ThisWorkbook.Sheets("Images")
+    Set newSheet = Application.ActiveWorkbook.Sheets("Images")
     On Error GoTo 0
     
     If newSheet Is Nothing Then
-        MsgBox "Лист ""Images"" не найден. Пожалуйста, выполните предыдущий макрос для создания листа ""Images"" с данными."
+        MsgBox "Лист ""Images"" не найден в активной рабочей книге. Пожалуйста, выполните предыдущий макрос для создания листа ""Images"" с данными."
         Exit Sub
     End If
     
-    ' Вставляем два новых столбца между первым и вторым столбцами
+    ' Вставляем два новых столбца между первым и вторым столбцами на листе "Images"
     newSheet.Columns("B:B").Insert Shift:=xlToRight
     newSheet.Columns("B:B").Insert Shift:=xlToRight
     
-    ' Задаем диапазон для столбца "Pair type" и столбца "Position"
+    ' Задаем диапазон для столбца "Pair type" и столбца "Position" на листе "Images"
     Set pairTypeColumn = newSheet.Range("B:B")
     Set positionColumn = newSheet.Range("C:C")
     
     ' Называем столбцы "Pair type" и "Position"
-    pairTypeColumn.Cells(1).Value = "Pair type"
-    positionColumn.Cells(1).Value = "Position"
+    pairTypeColumn.Cells(1).value = "Pair type"
+    positionColumn.Cells(1).value = "Position"
     
     ' Вносим значения в столбец "Pair type"
-    pairTypeColumn.Cells(2).Value = "M"
+    pairTypeColumn.Cells(2).value = "M"
     
     ' Вносим значения в столбец "Position"
-    positionColumn.Cells(2).Value = 0
+    positionColumn.Cells(2).value = 0
     
-    ' Определяем последнюю заполненную строку в первом столбце
+    ' Определяем последнюю заполненную строку в первом столбце на листе "Images"
     lastRow = newSheet.Cells(newSheet.Rows.Count, 1).End(xlUp).Row
     
-    ' Заполняем значениями "M" в столбце "Pair type"
+    ' Заполняем значениями "M" в столбце "Pair type" на листе "Images"
     pairTypeColumn.Cells(2).Resize(lastRow - 1).FillDown
     
-    ' Заполняем значениями "0" в столбце "Position"
+    ' Заполняем значениями "0" в столбце "Position" на листе "Images"
     positionColumn.Cells(2).Resize(lastRow - 1).FillDown
 End Sub
+
