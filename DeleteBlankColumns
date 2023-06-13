@@ -1,0 +1,38 @@
+Sub DeleteBlankColumns()
+    Dim xEndCol As Long
+    Dim I As Long
+    Dim xDel As Boolean
+    Dim deleteMessage As String
+    
+    On Error Resume Next
+    
+    Application.ScreenUpdating = False
+    
+    For Each xWs In ActiveWorkbook.Sheets
+        xEndCol = xWs.Cells.Find("*", SearchOrder:=xlByColumns, SearchDirection:=xlPrevious).Column
+        
+        If xEndCol > 0 Then
+            For I = xEndCol To 1 Step -1
+                If Application.WorksheetFunction.CountA(xWs.Columns(I)) <= 1 Then
+                    xWs.Columns(I).Delete
+                    xDel = True
+                End If
+            Next I
+        End If
+        
+        If xDel Then
+            deleteMessage = "Ïóñòûå êîëîíêè óäàëåíû."
+        End If
+        
+        xDel = False
+    Next xWs
+    
+    Application.ScreenUpdating = True
+    
+    If deleteMessage <> "" Then
+        MsgBox deleteMessage, vbInformation, "Kutools for Excel"
+    Else
+        MsgBox "Íåò êîëîíîê äëÿ óäàëåíèÿ.", vbExclamation, "Kutools for Excel"
+    End If
+End Sub
+
