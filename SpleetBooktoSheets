@@ -1,0 +1,20 @@
+Sub SplitWBtoWS()
+    Dim xPath As String
+    Dim xWs As Worksheet
+    
+    xPath = ActiveWorkbook.Path
+    Application.ScreenUpdating = False
+    Application.DisplayAlerts = False
+    
+    For Each xWs In ActiveWorkbook.Sheets
+        xWs.Copy
+        With ActiveWorkbook
+            .SaveAs Filename:=xPath & "\" & xWs.Name & ".csv", FileFormat:=xlCSV, Local:=True
+            .Close False
+        End With
+    Next
+    
+    Application.DisplayAlerts = True
+    Application.ScreenUpdating = True
+End Sub
+
