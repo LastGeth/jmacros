@@ -3,8 +3,8 @@ Sub DeleteUnderscoreAndDetailedImage()
     Dim col As Range
     Dim cell As Range
     
-    ' Удаление столбца "Detailed image" на всех листах, кроме "Images"
-    For Each ws In ThisWorkbook.Worksheets
+    ' Удаление столбца "Detailed image" на всех листах, кроме "Images" в активной рабочей книге
+    For Each ws In Application.ActiveWorkbook.Worksheets
         If ws.Name <> "Images" Then
             Set col = ws.Rows(1).Find("Detailed image", LookIn:=xlValues, LookAt:=xlWhole)
             
@@ -14,20 +14,21 @@ Sub DeleteUnderscoreAndDetailedImage()
         End If
     Next ws
     
-    ' Замена "_" на пробел в столбцах "Product_code" и "Product_name" на всех листах
-    For Each ws In ThisWorkbook.Sheets
+    ' Замена "_" на пробел в столбцах "Product_code" и "Product_name" на всех листах в активной рабочей книге
+    For Each ws In Application.ActiveWorkbook.Sheets
         Set cell = ws.Cells.Find("Product_code", LookIn:=xlValues, LookAt:=xlWhole)
         
         If Not cell Is Nothing Then
-            cell.Value = Replace(cell.Value, "_", " ")
-            cell.Offset(0, 1).Value = Replace(cell.Offset(0, 1).Value, "_", " ")
+            cell.value = Replace(cell.value, "_", " ")
+            cell.Offset(0, 1).value = Replace(cell.Offset(0, 1).value, "_", " ")
         End If
         
         Set cell = ws.Cells.Find("Product_name", LookIn:=xlValues, LookAt:=xlWhole)
         
         If Not cell Is Nothing Then
-            cell.Value = Replace(cell.Value, "_", " ")
-            cell.Offset(0, 1).Value = Replace(cell.Offset(0, 1).Value, "_", " ")
+            cell.value = Replace(cell.value, "_", " ")
+            cell.Offset(0, 1).value = Replace(cell.Offset(0, 1).value, "_", " ")
         End If
     Next ws
 End Sub
+
